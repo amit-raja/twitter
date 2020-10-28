@@ -30,33 +30,19 @@ def timeline_tweets(request):
 
 @api_view(['GET'])
 def following(request):
-	try:
 		user=request.query_params['user']
-		if request.user.follow.filter(username__username=user).exists():
+		 request.user.follow.filter(username__username=user).exists():
 			following=request.user.follow.none()
 			user=User.objects.filter(username=user).get()
 			serializer=FollowingSerializer(following,context={'user': user})
 			return Response(serializer.data)
-		else:
-			forbidden={'message':'permission denied or user not exist'}
-			return Response(data=forbidden,status=status.HTTP_403_FORBIDDEN)
-	except:
-		following=request.user.follow.none()
-		serializer=FollowingSerializer(following,context={'user': request.user})
-		return Response(serializer.data)
-
+	
 @api_view(['GET'])
 def follower(request):
-	try:
+	
 		user=request.query_params['user']
-		if request.user.follow.filter(username__username=user).exists():
+		 request.user.follow.filter(username__username=user).exists():
 			follower=Follower.objects.filter(username__username=user)
 			serializer=FollowerSerializer(follower,many=True)
 			return Response(serializer.data)
-		else:
-			forbidden={'message':'permission denied or user not exits'}
-			return Response(data=forbidden,status=status.HTTP_403_FORBIDDEN)
-	except:
-		follower=Follower.objects.filter(username__username=request.user)
-		serializer=FollowerSerializer(follower,many=True)
-		return Response(serializer.data)
+		
